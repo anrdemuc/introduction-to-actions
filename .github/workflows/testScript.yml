@@ -17,19 +17,26 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/github-script@0.8.0
+      - name: Comment on new issue
+        uses: actions/github-script@0.8.0
         with: 
-        github-token: {% raw %}${{secrets.GITHUB_TOKEN}}{% endraw %}
-        script: |
-            github.issues.createComment({
-            issue_number: context.issue.number,
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            body: "🎉 You've created this issue comment using GitHub Script!!!"
-            })
-            github.projects.createCard({
-            column_id: {{columnID}},
-            content_id: context.payload.issue.id,
-            content_type: "Issue"
-            });
+          github-token: {% raw %}${{secrets.GITHUB_TOKEN}}{% endraw %}
+          script: |
+              github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: "🎉 You've created this issue comment using GitHub Script!!!"
+              })
+      - name: Add issue to project board
+        if: contains(github.event.issue.labels.*.name, 'bug')
+        uses: actions/github-script@0.8.0
+        with:
+          github-token: {% raw %}${{secrets.GITHUB_TOKEN}}{% endraw %}
+          script: |   
+              github.projects.createCard({
+              column_id: {{columnID}},
+              content_id: context.payload.issue.id,
+              content_type: "Issue"
+              });
             
