@@ -211,6 +211,8 @@ Your new action will run any time a new commit is created or pushed to the remot
 
 ### :keyboard: Activity: Trigger the workflow
 
+<img src=https://octodex.github.com/images/jetpacktocat.png alt=celebrate width=300 align=right>  
+  
 1. Make a new branch named `test-workflow`.
 1. Commit any change to your branch, such as adding an emoji to your README.md file.
 2. Create the pull request on your branch.
